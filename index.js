@@ -8,7 +8,7 @@ const app=express()
 app.use(cors())
 const PORT = 4000;
 app.use(express.json())
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URL)
 //POSTUSER
 app.post('/createUser', (req, res) => {
     userModel.create(req.body)
