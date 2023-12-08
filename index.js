@@ -3,7 +3,7 @@ const mongoose=require('mongoose')
 const cors=require('cors')
 const userModel=require('./Model/Users')
 const dotenv = require("dotenv/config");
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 3000
 const app=express()
 app.use(cors())
 app.use(express.json())
