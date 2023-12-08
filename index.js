@@ -3,12 +3,20 @@ const mongoose=require('mongoose')
 const cors=require('cors')
 const userModel=require('./Model/Users')
 const dotenv = require("dotenv/config");
-
+const PORT = process.env.PORT || 4000
 const app=express()
 app.use(cors())
-const PORT = 4000;
 app.use(express.json())
-mongoose.connect(process.env.MONGODB_URL)
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URL)
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
 //POSTUSER
 app.post('/createUser', (req, res) => {
     userModel.create(req.body)
@@ -58,7 +66,9 @@ app.post('/createUser', (req, res) => {
       .catch(err => res.status(500).json({ error: err.message }));
   });
   
-  // Start the server
+//Connect to the database before listening or Start Server
+connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+      console.log("listening for requests");
+  })
+})
